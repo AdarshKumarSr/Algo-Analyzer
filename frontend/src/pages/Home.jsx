@@ -57,16 +57,42 @@ function Home() {
                                 placeholder="Enter numbers e.g. 5,3,8,1"
                                 value={inputValue}
                                 onChange={e => setInputValue(e.target.value)}
-                                className="flex-1 bg-gray-200 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-blue-500"
+                                style={{
+                                    flex: 1,
+                                    padding: '6px 12px',
+                                    borderRadius: 8,
+                                    fontSize: 13,
+                                    fontFamily: 'inherit',
+                                    border: '0.5px solid #e4e4e7',
+                                    background: '#fafafa',
+                                    color: '#374151',
+                                    outline: 'none',
+                                    transition: 'border-color 0.12s',
+                                }}
+                                onFocus={e => { e.currentTarget.style.borderColor = '#afa9ec'; e.currentTarget.style.background = '#fff' }}
+                                onBlur={e => { e.currentTarget.style.borderColor = '#e4e4e7'; e.currentTarget.style.background = '#fafafa' }}
                             />
                             <button
                                 onClick={() => {
                                     const input = inputValue.split(',').map(Number)
                                     visualizer.generate(selectedAlgo.slug, input)
                                 }}
-                                className="bg-blue-600 text-white hover:bg-blue-500 px-4 py-2 rounded text-sm"
+                                style={{
+                                    padding: '6px 16px',
+                                    borderRadius: 8,
+                                    fontSize: 13,
+                                    fontFamily: 'inherit',
+                                    fontWeight: 500,
+                                    cursor: 'pointer',
+                                    border: '0.5px solid #afa9ec',
+                                    background: '#eeedfe',
+                                    color: '#534ab7',
+                                    transition: 'all 0.12s',
+                                }}
+                                onMouseEnter={e => { e.currentTarget.style.background = '#e0deff'; e.currentTarget.style.borderColor = '#7f77dd'; e.currentTarget.style.color = '#3c3489' }}
+                                onMouseLeave={e => { e.currentTarget.style.background = '#eeedfe'; e.currentTarget.style.borderColor = '#afa9ec'; e.currentTarget.style.color = '#534ab7' }}
                             >
-                                Visualize
+                                ▶ Visualize
                             </button>
                         </div>
 
