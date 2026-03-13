@@ -3,11 +3,13 @@ const cors = require('cors');
 require('dotenv').config();
 
 const pool = require('./src/config/db');
+const algorithmRoutes = require('./src/routes/algorithms');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/api/algorithms', algorithmRoutes);
 
 app.get('/health', async (req, res) => {
   try {
