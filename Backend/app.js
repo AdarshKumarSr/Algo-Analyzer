@@ -10,6 +10,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/api/algorithms', algorithmRoutes);
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
 
 app.get('/health', async (req, res) => {
   try {
