@@ -5,14 +5,14 @@ import ComplexityBadge from '../components/ComplexityBadge'
 import CodePanel from '../components/CodePanel'
 import Controls from '../components/Controls'
 import useVisualizer from '../hooks/useVisualizer'
-// import Visualizer from '../components/visualizers/ArrayVisualizer'
 import VISUALIZER_MAP from '../components/visualizers'
+import AlgoInput from '../components/AlgoInput'
 
 
 
 function Home() {
     const [selectedAlgo, setSelectedAlgo] = useState(null)
-    const [inputValue, setInputValue] = useState('')
+    // const [inputValue, setInputValue] = useState('')
     const visualizer = useVisualizer()
     const [highlightMap, setHighlightMap] = useState(null)
     // const VisualizerComponent = VISUALIZER_MAP[selectedAlgo.category]
@@ -27,7 +27,7 @@ function Home() {
 
     const handleSelect = (algo) => {
         setSelectedAlgo(algo)
-        visualizer.reset()
+        visualizer.clear()  // ← was reset()
     }
 
     return (
@@ -56,7 +56,7 @@ function Home() {
                         </div>
 
                         {/* Input + Visualize */}
-                        <div className="flex gap-2 mb-4">
+                        {/* <div className="flex gap-2 mb-4">
                             <input
                                 type="text"
                                 placeholder="Enter numbers e.g. 5,3,8,1"
@@ -79,7 +79,10 @@ function Home() {
                             />
                             <button
                                 onClick={() => {
-                                    const input = inputValue.split(',').map(Number)
+                                    <AlgoInput
+                                        category={selectedAlgo.category}
+                                        onVisualize={(input) => visualizer.generate(selectedAlgo.slug, input)}
+                                    />
                                     visualizer.generate(selectedAlgo.slug, input)
                                 }}
                                 style={{
@@ -99,14 +102,19 @@ function Home() {
                             >
                                 ▶ Visualize
                             </button>
-                        </div>
+                        </div> */}
+                        {/* Input + Visualize */}
+                        <AlgoInput
+                            category={selectedAlgo.category}
+                            onVisualize={(input) => visualizer.generate(selectedAlgo.slug, input)}
+                        />
 
                         {/* Error */}
                         {visualizer.error && (
                             <p className="text-red-400 text-sm mb-4">{visualizer.error}</p>
                         )}
 
-                       {VisualizerComponent && <VisualizerComponent step={visualizer.step} />}
+                        {VisualizerComponent && <VisualizerComponent step={visualizer.step} />}
 
 
                         {/* Controls — only show after steps generated */}

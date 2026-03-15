@@ -1,22 +1,23 @@
+const throwValidation = require('../validationError')
 const getBubbleSortSteps = (inputArray) => {
-    
-    if (!inputArray){                                   
-        throw Object.assign(new Error('Pass the input first'), { isValidationError: true })
+
+    if (!inputArray) { 
+        throwValidation('Pass the input first'); 
     }
-    if (!Array.isArray(inputArray)) {                        
-        throw Object.assign(new Error('Input must be an array'), { isValidationError: true })
+    if (!Array.isArray(inputArray)) { 
+        throwValidation('Input must be an array'); 
     }
-    if (inputArray.length === 0){
-        throw Object.assign(new Error('Array cannot be empty'), { isValidationError: true })
-    }  
-    if (inputArray.length > 20){                            
-        throw Object.assign(new Error('Max 20 elements allowed'), { isValidationError: true })
+    if (inputArray.length === 0) { 
+        throwValidation('Array cannot be empty'); 
     }
-    if (inputArray.some(v => typeof v !== 'number')){       
-        throw Object.assign(new Error('Only numbers allowed'), { isValidationError: true })
+    if (inputArray.length > 20) { 
+        throwValidation('Max 20 elements allowed'); 
     }
-    if (inputArray.some(v => !Number.isFinite(v))){         
-        throw Object.assign(new Error('No Infinity or NaN allowed'), { isValidationError: true })
+    if (inputArray.some(v => typeof v !== 'number')) { 
+        throwValidation('Only numbers allowed'); 
+    }
+    if (inputArray.some(v => !Number.isFinite(v))) { 
+        throwValidation('No Infinity or NaN allowed'); 
     }
 
     const steps = [];

@@ -1,6 +1,7 @@
 const algorithmModel = require('../models/algorithmModel');
 const codesModel = require('../models/codesModel');
 const { getBubbleSortSteps } = require('../algorithms/array/bubbleSort');
+const { getStackPushSteps } = require('../algorithms/stack/push');
 
 const getAllAlgorithms = async (req, res) => {
     try {
@@ -38,7 +39,8 @@ const getAlgorithmBySlug = async (req, res) => {
 }
 
 const algorithmMap = {
-  'bubble-sort':    getBubbleSortSteps
+  'bubble-sort':    getBubbleSortSteps,
+  'stack-push': getStackPushSteps
 }
 
 const visualizeAlgorithm = async (req, res) => {

@@ -1,10 +1,10 @@
 import ArrayVisualizer from './ArrayVisualizer'
-// import StackVisualizer from './StackVisualizer'
+import StackVisualizer from './StackVisualizer'
 // import LinkedListVisualizer from './LinkedListVisualizer'
 
 const VISUALIZER_MAP = {
-  'array':       ArrayVisualizer
-//   'stack':       StackVisualizer,
+  'array':       ArrayVisualizer,
+  'stack':       StackVisualizer,
 //   'linked_list': LinkedListVisualizer,
 }
 

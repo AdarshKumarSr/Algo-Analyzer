@@ -26,6 +26,13 @@ function useVisualizer() {
   const prev = () => setCurrentStep(prev => Math.max(prev - 1, 0))
   const reset = () => { setCurrentStep(0); setIsPlaying(false) }
 
+  const clear = () => {
+    setSteps([])
+    setCurrentStep(0)
+    setIsPlaying(false)
+    setError(null)
+  }
+
   const play = () => {
     setIsPlaying(true)
     const interval = setInterval(() => {
@@ -51,6 +58,7 @@ function useVisualizer() {
     next,
     prev,
     reset,
+    clear,  // ← add
     play,
     totalSteps: steps.length
   }

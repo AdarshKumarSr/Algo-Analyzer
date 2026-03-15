@@ -4,4 +4,4 @@ const throwValidation = (msg) => {
   throw err;
 }
 
-export default throwValidation;
+module.exports = throwValidation;
