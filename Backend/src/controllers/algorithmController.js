@@ -37,57 +37,29 @@ const getAlgorithmBySlug = async (req, res) => {
 
 }
 
+const algorithmMap = {
+  'bubble-sort':    getBubbleSortSteps
+}
+
 const visualizeAlgorithm = async (req, res) => {
-    try {
-        const { slug } = req.params;
-        const { input } = req.body;
+  try {
+    const { slug } = req.params;
+    const { input } = req.body;
 
-        if (!input) {
-            return res.status(400).json({ success: false, error: 'Pass the Input First' });
-        }
-
-        if (!Array.isArray(input)) {
-            return res.status(400).json({ success: false, error: 'Input should be in Array' });
-        }
-
-        if (input.length === 0) {
-            return res.status(400).json({ success: false, error: 'Input should have at least 1 element' });
-        }
-
-        if (input.length > 20) {
-            return res.status(400).json({ success: false, error: 'Input should not have more than 20 element' });
-        }
-
-        if (input.some(val => typeof val !== 'number')) {
-            return res.status(400).json({ success: false, error: 'Only Numbers are allowed' });
-
-        }
-
-        // const steps = getBubbleSortSteps(input); 
-
-        const algorithmMap = {
-            'bubble-sort': getBubbleSortSteps
-        }
-
-        const stepGenerator = algorithmMap[slug];
-
-        if (!stepGenerator) {
-            return res.status(404).json({ success: false, error: 'Algorithm not found, try later' });
-        }
-
-        const steps = stepGenerator(input);
-
-        res.json({
-            success: true,
-            data: { steps }
-        })
+    const stepGenerator = algorithmMap[slug];
+    if (!stepGenerator) {
+      return res.status(404).json({ success: false, error: 'Algorithm not found' });
     }
-    catch (err) {
-        res.status(500).json({
-            success: false,
-            error: err.message
-        });
-    }
+
+    // each generator validates its own input and throws if invalid
+    const steps = stepGenerator(input);
+
+    res.json({ success: true, data: { steps } })
+  }
+  catch (err) {
+    const status = err.isValidationError ? 400 : 500;
+    res.status(status).json({ success: false, error: err.message });
+  }
 }
 
 const getAlgorithmCode = async (req, res) => {

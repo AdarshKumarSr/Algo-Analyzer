@@ -5,7 +5,9 @@ import ComplexityBadge from '../components/ComplexityBadge'
 import CodePanel from '../components/CodePanel'
 import Controls from '../components/Controls'
 import useVisualizer from '../hooks/useVisualizer'
-import Visualizer from '../components/Visualizer'
+// import Visualizer from '../components/visualizers/ArrayVisualizer'
+import VISUALIZER_MAP from '../components/visualizers'
+
 
 
 function Home() {
@@ -13,6 +15,9 @@ function Home() {
     const [inputValue, setInputValue] = useState('')
     const visualizer = useVisualizer()
     const [highlightMap, setHighlightMap] = useState(null)
+    // const VisualizerComponent = VISUALIZER_MAP[selectedAlgo.category]
+    const VisualizerComponent = selectedAlgo ? VISUALIZER_MAP[selectedAlgo.category] : null
+
 
     useEffect(() => {
         if (!selectedAlgo) return
@@ -101,9 +106,8 @@ function Home() {
                             <p className="text-red-400 text-sm mb-4">{visualizer.error}</p>
                         )}
 
-                        {visualizer.steps.length > 0 && (
-                            <Visualizer step={visualizer.step} />
-                        )}
+                       {VisualizerComponent && <VisualizerComponent step={visualizer.step} />}
+
 
                         {/* Controls — only show after steps generated */}
                         {visualizer.steps.length > 0 && (
