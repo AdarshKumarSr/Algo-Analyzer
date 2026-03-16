@@ -1,11 +1,16 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Landing from './pages/Landing.jsx'
 import Home from './pages/Home'
 
 function App() {
   return (
-    <div className="bg-white min-h-screen text-black">
-      <Home />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/"          element={<Landing />} />
+        <Route path="/visualize" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
-export default App;
+export default App

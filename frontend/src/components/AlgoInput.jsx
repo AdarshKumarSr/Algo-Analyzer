@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
 function AlgoInput({ category, onVisualize }) {
-  const [val,   setVal]   = useState('')
+  const [val, setVal] = useState('')
   const [value, setValue] = useState('')
   const [stack, setStack] = useState('')
 
   const inputCls = "flex-1 px-3 py-1.5 rounded-lg text-sm border border-zinc-200 bg-zinc-50 text-gray-700 outline-none focus:border-violet-300 focus:bg-white transition-colors"
-  const btnCls   = "px-4 py-1.5 rounded-lg text-sm font-medium border border-violet-300 bg-violet-50 text-violet-600 hover:bg-violet-100 hover:border-violet-400 hover:text-violet-800 transition-colors whitespace-nowrap cursor-pointer"
+  const btnCls = "px-4 py-1.5 rounded-lg text-sm font-medium border border-violet-300 bg-violet-50 text-violet-600 hover:bg-violet-100 hover:border-violet-400 hover:text-violet-800 transition-colors whitespace-nowrap cursor-pointer"
 
   if (category === 'array') {
     return (
@@ -52,6 +52,23 @@ function AlgoInput({ category, onVisualize }) {
             ▶ Visualize
           </button>
         </div>
+      </div>
+    )
+  }
+
+  if (category === 'linked_list') {
+    return (
+      <div className="flex gap-2 mb-4">
+        <input
+          className={inputCls}
+          type="text"
+          placeholder="Enter nodes e.g. 10,20,30"
+          value={val}
+          onChange={e => setVal(e.target.value)}
+        />
+        <button className={btnCls} onClick={() => onVisualize(val.split(',').map(Number))}>
+          ▶ Visualize
+        </button>
       </div>
     )
   }
