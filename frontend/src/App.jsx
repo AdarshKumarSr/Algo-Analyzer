@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Landing from './pages/Landing.jsx'
 import Home from './pages/Home'
+import Compare from './pages/Compare'
+
 
 function App() {
   return (
@@ -8,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/"          element={<Landing />} />
         <Route path="/visualize" element={<Home />} />
+        <Route path="/compare"   element={<Compare />} />
       </Routes>
     </BrowserRouter>
   )

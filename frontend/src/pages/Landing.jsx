@@ -22,7 +22,7 @@ function Landing() {
         {/* Title */}
         <h1 className="text-5xl font-extrabold text-gray-900 leading-tight mb-4 max-w-2xl">
           Understand algorithms{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-emerald-500">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-violet-600 to-emerald-500">
             step by step
           </span>
         </h1>
@@ -44,7 +44,7 @@ function Landing() {
           {BARS.map((val, idx) => (
             <div
               key={idx}
-              className="w-8 rounded-t-md bg-gradient-to-t from-violet-500 to-emerald-400 transition-all duration-700"
+              className="w-8 rounded-t-md bg-linear-to-t from-violet-500 to-emerald-400 transition-all duration-700"
               style={{
                 height: `${(val / 9) * 80}px`,
                 animation: `pulse ${1 + idx * 0.15}s ease-in-out infinite alternate`
@@ -83,10 +83,10 @@ function Landing() {
           <div className="flex flex-wrap justify-center gap-3">
             {[
               { label: 'Bubble Sort',    cat: 'Sorting'    },
-            //   { label: 'Binary Search',  cat: 'Searching'  },
+            //   { label: 'Binary Search',  caat: 'Searching'  },
               { label: 'Stack Push',     cat: 'Stack'      },
               { label: 'LL Traversal',   cat: 'Linked List'},
-            //   { label: 'Selection Sort', cat: 'Sorting'    },
+              { label: 'Selection Sort', cat: 'Sorting'    },
             //   { label: 'Insertion Sort', cat: 'Sorting'    },
             ].map(({ label, cat }) => (
               <div

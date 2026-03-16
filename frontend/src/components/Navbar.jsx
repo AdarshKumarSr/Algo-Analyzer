@@ -29,6 +29,12 @@ function Navbar({ onMenuClick }) {
         >
           Visualize
         </Link>
+        <Link
+          to="/compare"
+          className={`text-sm font-medium transition-colors ${pathname === '/compare' ? 'text-violet-600' : 'text-gray-500 hover:text-gray-800'}`}
+        >
+          Compare
+        </Link>
 
         {/* Hamburger — only on /visualize */}
         {pathname === '/visualize' && (
@@ -36,9 +42,9 @@ function Navbar({ onMenuClick }) {
             onClick={onMenuClick}
             className="flex flex-col gap-1 p-1.5 rounded-lg hover:bg-zinc-100 transition-colors"
           >
-            <span className="w-5 h-0.5 bg-gray-600 rounded"/>
-            <span className="w-5 h-0.5 bg-gray-600 rounded"/>
-            <span className="w-5 h-0.5 bg-gray-600 rounded"/>
+            <span className="w-5 h-0.5 bg-gray-600 rounded" />
+            <span className="w-5 h-0.5 bg-gray-600 rounded" />
+            <span className="w-5 h-0.5 bg-gray-600 rounded" />
           </button>
         )}
       </div>

@@ -19,7 +19,7 @@ function AlgoButton({ algo, isActive, onClick, meta }) {
           : `text-zinc-400 ${meta.hoverBg} ${meta.hoverText}`
         }`}
     >
-      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${isActive ? meta.dot : 'bg-zinc-300'}`} />
+      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isActive ? meta.dot : 'bg-zinc-300'}`} />
       {algo.name}
     </button>
   )
