@@ -14,7 +14,9 @@ function Home() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const visualizer = useVisualizer()
     const [highlightMap, setHighlightMap] = useState(null)
-    const VisualizerComponent = selectedAlgo ? VISUALIZER_MAP[selectedAlgo.category] : null
+    const VisualizerComponent = selectedAlgo
+        ? (VISUALIZER_MAP[selectedAlgo.slug] || VISUALIZER_MAP[selectedAlgo.category])
+        : null
 
     useEffect(() => {
         if (!selectedAlgo) return
@@ -43,7 +45,7 @@ function Home() {
 
             {/* Sidebar */}
             <div className={`fixed top-0 left-0 h-full z-50 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                <Sidebar onSelect={handleSelect} selectedSlug={selectedAlgo?.slug} onClose={() => setSidebarOpen(false)}/>
+                <Sidebar onSelect={handleSelect} selectedSlug={selectedAlgo?.slug} onClose={() => setSidebarOpen(false)} />
             </div>
 
             {/* Main Content */}
@@ -68,15 +70,16 @@ function Home() {
 
                         {/* Complexity Badges */}
                         <div className="flex gap-3 mb-6">
-                            <ComplexityBadge label="Best"    value={selectedAlgo.time_best} />
+                            <ComplexityBadge label="Best" value={selectedAlgo.time_best} />
                             <ComplexityBadge label="Average" value={selectedAlgo.time_avg} />
-                            <ComplexityBadge label="Worst"   value={selectedAlgo.time_worst} />
-                            <ComplexityBadge label="Space"   value={selectedAlgo.space_complexity} />
+                            <ComplexityBadge label="Worst" value={selectedAlgo.time_worst} />
+                            <ComplexityBadge label="Space" value={selectedAlgo.space_complexity} />
                         </div>
 
                         {/* Input + Visualize */}
                         <AlgoInput
                             category={selectedAlgo.category}
+                            slug={selectedAlgo.slug}
                             onVisualize={(input) => visualizer.generate(selectedAlgo.slug, input)}
                         />
 
@@ -85,8 +88,9 @@ function Home() {
                             <p className="text-red-400 text-sm mb-4">{visualizer.error}</p>
                         )}
 
-                        {VisualizerComponent && <VisualizerComponent step={visualizer.step} />}
-
+                        {VisualizerComponent && (
+                            <VisualizerComponent step={visualizer.step} slug={selectedAlgo.slug} />
+                        )}
                         {/* Controls */}
                         {visualizer.steps.length > 0 && (
                             <Controls

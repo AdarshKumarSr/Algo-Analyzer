@@ -4,6 +4,15 @@ const { getBubbleSortSteps } = require('../algorithms/array/bubbleSort');
 const { getStackPushSteps } = require('../algorithms/stack/push');
 const { getLLTraversalSteps } = require('../algorithms/linkedList/traversal');
 const { getSelectionSortSteps } = require('../algorithms/array/selectionsort');
+const { getInsertionSortSteps } = require('../algorithms/array/insertionSort');
+const { getBinarySearchSteps } = require('../algorithms/array/binarySearch');
+const { getLinearSearchSteps } = require('../algorithms/array/linearSearch');
+const { getStackPopSteps } = require('../algorithms/stack/pop')
+const { getStackPeekSteps } = require('../algorithms/stack/peek');
+const { getLLInsertHeadSteps } = require('../algorithms/linkedList/Inserthead');
+const { getLLInsertTailSteps } = require('../algorithms/linkedList/Inserttail');
+// const { getLLDeleteNodeSteps } = require('../algorithms/linkedList/deletenode');
+const {getLLDeleteNodeSteps} = require('../algorithms/linkedList/delete')
 
 const getAllAlgorithms = async (req, res) => {
     try {
@@ -44,7 +53,15 @@ const algorithmMap = {
   'bubble-sort':    getBubbleSortSteps,
   'stack-push': getStackPushSteps,
   'll-traversal': getLLTraversalSteps,
-  'selection-sort' : getSelectionSortSteps
+  'selection-sort' : getSelectionSortSteps,
+  'insertion-sort' : getInsertionSortSteps,
+  'binary-search' : getBinarySearchSteps,
+  'linear-search' : getLinearSearchSteps,
+  'stack-pop' : getStackPopSteps,
+  'stack-peek' : getStackPeekSteps,
+  'll-insert-head' : getLLInsertHeadSteps,
+  'll-insert-tail' : getLLInsertTailSteps,
+  'll-delete-node' : getLLDeleteNodeSteps
 }
 
 const visualizeAlgorithm = async (req, res) => {
