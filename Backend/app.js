@@ -7,12 +7,18 @@ const algorithmRoutes = require('./src/routes/algorithms');
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
-app.use('/api/algorithms', algorithmRoutes);
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://algo-analyzer.onrender.com'
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173'
+  origin: allowedOrigins
 }));
+
+app.use(express.json());
+
+app.use('/api/algorithms', algorithmRoutes);
 
 app.get('/health', async (req, res) => {
   try {
@@ -24,6 +30,7 @@ app.get('/health', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
