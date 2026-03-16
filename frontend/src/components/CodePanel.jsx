@@ -3,7 +3,7 @@ import { getAlgorithmCode } from "../api"
 
 const LANGS = ['java', 'cpp']
 
-function CodePanel({ slug, currentStep, highlightMap }) {
+function CodePanel({ slug, currentStep }) {
   const [lang, setLang] = useState('java')
   const [codeData, setCodeData] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -11,6 +11,7 @@ function CodePanel({ slug, currentStep, highlightMap }) {
   useEffect(() => {
     if (!slug) return
     setLoading(true)
+    setCodeData(null)
     getAlgorithmCode(slug, lang)
       .then(res => setCodeData(res.data.data))
       .catch(err => console.error(err))
@@ -18,7 +19,7 @@ function CodePanel({ slug, currentStep, highlightMap }) {
   }, [slug, lang])
 
   const lines = codeData?.code?.split('\n') || []
-  const highlighted = highlightMap?.[currentStep?.action] || []
+  const highlighted = codeData?.highlight_map?.[currentStep?.action] || []
 
   return (
     <div style={{ background: '#fff', border: '0.5px solid #e4e4e7', borderRadius: 12, overflow: 'hidden', fontFamily: 'sans-serif' }}>
