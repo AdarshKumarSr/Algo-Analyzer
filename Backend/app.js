@@ -19,6 +19,8 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/api/algorithms', algorithmRoutes);
+// app.use('/api/execution', require('./src/routes/executionRoute'));
+app.use('/api', require('./src/routes/Analyzev2route'));
 
 app.get('/health', async (req, res) => {
   try {

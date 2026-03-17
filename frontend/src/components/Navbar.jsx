@@ -3,13 +3,11 @@ import { Link, useLocation } from 'react-router-dom'
 function Navbar({ onMenuClick }) {
   const { pathname } = useLocation()
 
-  // Helper to determine link styles to keep things "even"
   const getLinkStyle = (path) => {
     const isActive = pathname === path
     const baseClasses = "text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200"
-    
-    return isActive 
-      ? `${baseClasses} bg-violet-600 text-white shadow-sm` 
+    return isActive
+      ? `${baseClasses} bg-violet-600 text-white shadow-sm`
       : `${baseClasses} text-zinc-600 hover:bg-violet-50 hover:text-violet-700`
   }
 
@@ -21,30 +19,28 @@ function Navbar({ onMenuClick }) {
         <span className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center text-white text-sm font-bold shadow-sm group-hover:bg-violet-700 transition-colors">
           S
         </span>
-        <span className="font-bold text-zinc-900 tracking-tight text-lg">
-          StepWise
-        </span>
+        <span className="font-bold text-zinc-900 tracking-tight text-lg">StepWise</span>
       </Link>
 
-      {/* Navigation Group */}
+      {/* Navigation */}
       <div className="flex items-center gap-1">
-        <Link to="/" className={getLinkStyle('/')}>
-          Home
-        </Link>
+        <Link to="/" className={getLinkStyle('/')}>Home</Link>
+        {/* <Link to="/visualize" className={getLinkStyle('/visualize')}>Visualize</Link> */}
+        <Link to="/compare" className={getLinkStyle('/compare')}>Compare</Link>
+        {/* <Link to="/analyze" className={getLinkStyle('/analyze')}>Analyze</Link> */}
 
-        <Link to="/visualize" className={getLinkStyle('/visualize')}>
-          Visualize
-        </Link>
-
-        <Link to="/compare" className={getLinkStyle('/compare')}>
-          Compare
-        </Link>
-
-        <Link to="/analyze" className={getLinkStyle('/analyze')}>
+        {/* Analyze v2 — badge to make it stand out */}
+        <Link to="/analyze-v2" className={`relative text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200 ${
+          pathname === '/analyze-v2'
+            ? 'bg-violet-600 text-white shadow-sm'
+            : 'text-zinc-600 hover:bg-violet-50 hover:text-violet-700'
+        }`}>
           Analyze
+          {/* <span className="absolute -top-1 -right-1 text-[10px] font-bold px-1 rounded-full bg-violet-600 text-white leading-4">
+            v2
+          </span> */}
         </Link>
 
-        {/* Separator & Actions */}
         {pathname === '/visualize' && (
           <div className="flex items-center ml-2 pl-2 border-l border-zinc-200">
             <button

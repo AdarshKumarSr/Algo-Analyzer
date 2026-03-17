@@ -10,5 +10,6 @@ export const getAlgorithmCode = (slug, lang) => api.get(`/algorithms/${slug}/cod
 export const visualizeAlgorithm = (slug, input) => api.post(`/algorithms/${slug}/visualize`, { input });
 export const analyzeCode = (data) =>
   api.post('/algorithms/analyze-code', data);
+export const analyzeV2Code = (data) => api.post('/analyze-v2', data);
 
 export default api;
