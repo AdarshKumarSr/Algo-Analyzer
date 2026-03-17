@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { getAllAlgorithms } from '../api/index'
 import Navbar from '../components/Navbar'
 import ComplexityBadge from '../components/ComplexityBadge'
@@ -16,16 +15,13 @@ function AlgoSide({ algo, visualizer }) {
     </div>
   )
 
-  const VisualizerComponent = VISUALIZER_MAP[algo.category] || null
+  const VisualizerComponent = VISUALIZER_MAP[algo.slug] || VISUALIZER_MAP[algo.category] || null
 
   return (
     <div className="flex-1 min-w-0">
-
-      {/* Title */}
       <h2 className="text-lg font-bold text-gray-800 mb-1">{algo.name}</h2>
       <p className="text-xs text-gray-400 mb-4">{algo.description}</p>
 
-      {/* Complexity badges */}
       <div className="flex flex-wrap gap-2 mb-4">
         <ComplexityBadge label="Best"    value={algo.time_best} />
         <ComplexityBadge label="Average" value={algo.time_avg} />
@@ -33,12 +29,10 @@ function AlgoSide({ algo, visualizer }) {
         <ComplexityBadge label="Space"   value={algo.space_complexity} />
       </div>
 
-      {/* Visualizer */}
       {VisualizerComponent && visualizer.steps.length > 0 && (
-        <VisualizerComponent step={visualizer.step} />
+        <VisualizerComponent step={visualizer.step} slug={algo.slug} />
       )}
 
-      {/* Controls */}
       {visualizer.steps.length > 0 && (
         <Controls
           onPrev={visualizer.prev}
@@ -51,16 +45,46 @@ function AlgoSide({ algo, visualizer }) {
         />
       )}
 
-      {/* Error */}
       {visualizer.error && (
         <p className="text-red-400 text-sm mb-4">{visualizer.error}</p>
       )}
 
-      {/* Code Panel */}
-      <CodePanel
-        slug={algo.slug}
-        currentStep={visualizer.step}
-      />
+      <CodePanel slug={algo.slug} currentStep={visualizer.step} />
+    </div>
+  )
+}
+
+const CATEGORY_LABELS = {
+  array:       'Arrays',
+  stack:       'Stacks',
+  linked_list: 'Linked Lists',
+}
+
+function GroupedSelect({ algorithms, value, onChange, label }) {
+  const groups = algorithms.reduce((acc, algo) => {
+    const cat = algo.category
+    if (!acc[cat]) acc[cat] = []
+    acc[cat].push(algo)
+    return acc
+  }, {})
+
+  return (
+    <div className="flex-1">
+      <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide mb-1.5 block">{label}</label>
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-zinc-50 text-sm text-gray-700 outline-none focus:border-violet-300 focus:bg-white transition-colors"
+      >
+        <option value="">Select algorithm</option>
+        {Object.entries(groups).map(([cat, algos]) => (
+          <optgroup key={cat} label={CATEGORY_LABELS[cat] || cat}>
+            {algos.map(a => (
+              <option key={a.slug} value={a.slug}>{a.name}</option>
+            ))}
+          </optgroup>
+        ))}
+      </select>
     </div>
   )
 }
@@ -79,9 +103,6 @@ function Compare() {
       .catch(err => console.error(err))
   }, [])
 
-  // only show array algorithms
-  const arrayAlgos = algorithms.filter(a => a.category === 'array')
-
   const handleCompare = (input) => {
     if (!algoA || !algoB) return
     vizA.generate(algoA.slug, input)
@@ -89,16 +110,16 @@ function Compare() {
   }
 
   const handleSelectA = (slug) => {
-    const algo = algorithms.find(a => a.slug === slug)
-    setAlgoA(algo)
+    setAlgoA(algorithms.find(a => a.slug === slug) || null)
     vizA.clear()
   }
 
   const handleSelectB = (slug) => {
-    const algo = algorithms.find(a => a.slug === slug)
-    setAlgoB(algo)
+    setAlgoB(algorithms.find(a => a.slug === slug) || null)
     vizB.clear()
   }
+
+  const categoryMismatch = algoA && algoB && algoA.category !== algoB.category
 
   return (
     <div className="min-h-screen bg-white">
@@ -106,71 +127,43 @@ function Compare() {
 
       <main className="max-w-7xl mx-auto px-6 pt-24 pb-12">
 
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-800 mb-1">Compare Algorithms</h1>
           <p className="text-sm text-gray-400">Same input, two algorithms — see how they differ step by step</p>
         </div>
 
-        {/* Algorithm selectors + input */}
-        <div className="flex flex-col md:flex-row gap-4 mb-8 items-end">
-
-          {/* Algo A dropdown */}
-          <div className="flex-1">
-            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide mb-1.5 block">Algorithm A</label>
-            <select
-              value={algoA?.slug || ''}
-              onChange={e => handleSelectA(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-zinc-50 text-sm text-gray-700 outline-none focus:border-violet-300 focus:bg-white transition-colors"
-            >
-              <option value="">Select algorithm</option>
-              {arrayAlgos.map(a => (
-                <option key={a.slug} value={a.slug}>{a.name}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* VS badge */}
-          <div className="px-4 py-2 rounded-full bg-violet-50 border border-violet-200 text-violet-600 text-xs font-bold self-center">
-            VS
-          </div>
-
-          {/* Algo B dropdown */}
-          <div className="flex-1">
-            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide mb-1.5 block">Algorithm B</label>
-            <select
-              value={algoB?.slug || ''}
-              onChange={e => handleSelectB(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-zinc-50 text-sm text-gray-700 outline-none focus:border-violet-300 focus:bg-white transition-colors"
-            >
-              <option value="">Select algorithm</option>
-              {arrayAlgos.map(a => (
-                <option key={a.slug} value={a.slug}>{a.name}</option>
-              ))}
-            </select>
-          </div>
+        <div className="flex flex-col md:flex-row gap-4 mb-6 items-end">
+          <GroupedSelect algorithms={algorithms} value={algoA?.slug || ''} onChange={handleSelectA} label="Algorithm A" />
+          <div className="px-4 py-2 rounded-full bg-violet-50 border border-violet-200 text-violet-600 text-xs font-bold self-center shrink-0">VS</div>
+          <GroupedSelect algorithms={algorithms} value={algoB?.slug || ''} onChange={handleSelectB} label="Algorithm B" />
         </div>
 
-        {/* Input */}
-        {algoA && algoB && (
+        {/* Warn if categories don't match */}
+        {categoryMismatch && (
+          <div className="mb-6 p-3 rounded-lg bg-amber-50 border border-amber-200">
+            <p className="text-amber-700 text-sm">
+              These algorithms use different data structures — comparing them may not be meaningful. Try picking two from the same category.
+            </p>
+          </div>
+        )}
+
+        {/* Input — only when both selected and same category */}
+        {algoA && algoB && !categoryMismatch && (
           <div className="mb-8">
             <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide mb-1.5 block">
-              Input — same array fed to both
+              Input — same data fed to both
             </label>
             <AlgoInput
-              category="array"
+              category={algoA.category}
+              slug={algoA.slug}
               onVisualize={handleCompare}
             />
           </div>
         )}
 
-        {/* Side by side */}
         <div className="flex flex-col md:flex-row gap-8">
           <AlgoSide algo={algoA} visualizer={vizA} />
-
-          {/* Divider */}
           <div className="w-px bg-zinc-100 self-stretch hidden md:block" />
-
           <AlgoSide algo={algoB} visualizer={vizB} />
         </div>
 

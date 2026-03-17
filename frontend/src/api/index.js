@@ -8,5 +8,7 @@ export const getAllAlgorithms = () => api.get('/algorithms');
 export const getAlgorithmBySlug = (slug) => api.get(`/algorithms/${slug}`);
 export const getAlgorithmCode = (slug, lang) => api.get(`/algorithms/${slug}/code?lang=${lang}`);
 export const visualizeAlgorithm = (slug, input) => api.post(`/algorithms/${slug}/visualize`, { input });
+export const analyzeCode = (data) =>
+  api.post('/algorithms/analyze-code', data);
 
 export default api;

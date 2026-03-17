@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { visualizeAlgorithm } from '../api/index'
 
 function useVisualizer() {
-  const [steps, setSteps] = useState([])
+  const [steps, setStepsState] = useState([])
   const [currentStep, setCurrentStep] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -13,7 +13,7 @@ function useVisualizer() {
     setError(null)
     try {
       const res = await visualizeAlgorithm(slug, input)
-      setSteps(res.data.data.steps)
+      setStepsState(res.data.data.steps)
       setCurrentStep(0)
     } catch (err) {
       setError(err.response?.data?.error || 'Something went wrong')
@@ -22,12 +22,19 @@ function useVisualizer() {
     }
   }
 
+  // For cases where steps come from outside (e.g. analyzeCode response)
+  const setSteps = (newSteps) => {
+    setStepsState(newSteps)
+    setCurrentStep(0)
+    setIsPlaying(false)
+  }
+
   const next = () => setCurrentStep(prev => Math.min(prev + 1, steps.length - 1))
   const prev = () => setCurrentStep(prev => Math.max(prev - 1, 0))
   const reset = () => { setCurrentStep(0); setIsPlaying(false) }
 
   const clear = () => {
-    setSteps([])
+    setStepsState([])
     setCurrentStep(0)
     setIsPlaying(false)
     setError(null)
@@ -55,13 +62,14 @@ function useVisualizer() {
     loading,
     error,
     generate,
+    setSteps,   // ← now exposed
     next,
     prev,
     reset,
-    clear,  // ← add
+    clear,
     play,
     totalSteps: steps.length
   }
 }
 
-export default useVisualizer;
+export default useVisualizer
