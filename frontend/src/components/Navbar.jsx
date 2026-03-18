@@ -25,7 +25,7 @@ function Navbar({ onMenuClick }) {
       {/* Navigation */}
       <div className="flex items-center gap-1">
         <Link to="/" className={getLinkStyle('/')}>Home</Link>
-        {/* <Link to="/visualize" className={getLinkStyle('/visualize')}>Visualize</Link> */}
+        <Link to="/visualize" className={getLinkStyle('/visualize')}>Visualize</Link>
         <Link to="/compare" className={getLinkStyle('/compare')}>Compare</Link>
         {/* <Link to="/analyze" className={getLinkStyle('/analyze')}>Analyze</Link> */}
 
